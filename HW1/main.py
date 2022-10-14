@@ -1,11 +1,13 @@
+"""В модуле реализована игра в крестики-нолики."""
 
 class TicTacGame:
+    """Класс игры крестики-нолики"""
     board = list(range(1, 10))
     position_of_X = set()
     position_of_O = set()
 
     def show_board(self):
-        # Отображение игрового поля
+        """Отображение игрового поля."""
         for i in range(0, 7, 3):
             print(' ——— ——— ——— ')
             print("|", self.board[i], "|", self.board[i + 1], "|",
@@ -13,7 +15,7 @@ class TicTacGame:
         print(' ——— ——— ——— ')
 
     def validate_input(self, answer_player):
-        # Валидация пользовательского ввода
+        """Валидация пользовательского ввода."""
         valid = True
         try:
             answer_player = int(answer_player)
@@ -21,7 +23,7 @@ class TicTacGame:
             print("Введено не число")
             valid = False
         else:
-            if (answer_player < 1 or answer_player > 9):
+            if answer_player < 1 or answer_player > 9:
                 print("Такого номера клетки не существует")
                 valid = False
             elif (str(self.board[answer_player-1]) in {'X', 'O'}):
@@ -30,9 +32,9 @@ class TicTacGame:
         return valid
 
     def take_input(self, player):
-        # Пользовательский ввод
+        """Пользовательский ввод."""
         answer_player = input("Игрок " + player + ", Ваш ход:")
-        if ((self.validate_input(answer_player)) is True):
+        if self.validate_input(answer_player) is True:
             self.board[int(answer_player)-1] = player
             if player == 'X':
                 self.position_of_X.add(int(answer_player))
@@ -41,36 +43,37 @@ class TicTacGame:
             self.show_board()
         else:
             return False
+        return None
 
     def start_game(self):
-        # Процесс игры
+        """Процесс игры."""
         print("Старт игры")
         self.show_board()
         win = False
         while not win:
             while ((self.take_input('X')) is False):
                 continue
-            if (self.check_winner('X')):
+            if self.check_winner('X'):
                 win = True
                 break
             # Проверка на ничью
-            Nobody_win = True
+            nobody_win = True
             for each in self.board:
-                if each in {1, 2, 3, 4, 5, 6, 7, 8, 9}:
-                    Nobody_win = False
+                if each in range(1, 101):
+                    nobody_win = False
                     break
-            if (Nobody_win is True):
+            if nobody_win is True:
                 print("Ничья!")
                 win = True
                 break
             while ((self.take_input('O')) is False):
                 continue
-            if (self.check_winner('O')):
+            if self.check_winner('O'):
                 win = True
         print("Конец игры!")
 
     def check_winner(self, player):
-        # Проверка на то, что есть ли победитель
+        """Проверка на то, что есть ли победитель."""
         win_sets = ({1, 2, 3}, {4, 5, 6}, {7, 8, 9}, {1, 4, 7},
                     {3, 6, 9}, {2, 5, 8}, {1, 5, 9}, {3, 5, 7})
         if player == 'X':
