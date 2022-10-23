@@ -1,6 +1,6 @@
 # Default ignored files
 /shelf/
 /workspace.xml
-/.idea
-/__pycache__
-/tutorial-env
+.idea
+__pycache__
+tutorial-env
