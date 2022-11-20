@@ -54,6 +54,13 @@ class ChatMemberDelete(RetrieveDestroyAPIView):
         return obj
 
 class ChatMemberCreateList(ListCreateAPIView):
-    #Добавление пользователя в чат
+    #Добавление участника в чат по id человека и id чата
     serializer_class = ChatMemberSerializer
     queryset = ChatMember.objects.all()
+
+    #Проверка то, что человек уже не добавлен в чат
+    def perform_create(self, serializer):
+        user = ChatMember.objects.filter(user=self.request.data.get('user'), chat=self.request.data.get('chat'))
+        if user.exists():
+            raise ValidationError('User has already in chat')
+        serializer.save()
