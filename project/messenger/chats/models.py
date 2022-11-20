@@ -51,8 +51,12 @@ class ChatMember(models.Model):
     )
     role = models.CharField('Роль пользователя',max_length=200, null=True, blank=True)
     member_since = models.DateField('Время вступления в чат', auto_now_add=True)
+
     def __str__(self):
         return f'{self.chat} {self.user} {self.role}'
+
+    def get_info_chat(self):
+        return {"title" : self.chat.title, "description" : self.chat.description}
     class Meta:
         verbose_name = 'Пользователь чата'
         verbose_name_plural = 'Пользователи чата'

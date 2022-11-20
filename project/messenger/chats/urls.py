@@ -1,18 +1,13 @@
 from django.urls import path
 
-from . import views
+from chats.views import *
 
 urlpatterns = [
-    path('chats_list/<int:user_id>/', views.chats_list, name='chats_list'),
-    path('chats_detail/<int:chat_id>/', views.chat_detail, name='chat_detail'),
-    path('create_chat/', views.create_chat, name = 'create_chat'),
-    path('edit_chat/', views.edit_chat, name='edit_chat'),
-    path('delete_chat/<int:chat_id>/', views.delete_chat, name='delete_chat'),
-    path('add_member/', views.add_member, name='add_member'),
-    path('delete_member/<int:member_id>/', views.delete_member, name='delete_member'),
-    path('create_message/', views.create_message, name='create_message'),
-    path('edit_message/', views.edit_message, name='edit_message'),
-    path('readen_message/', views.message_is_readen, name='message_is_readen'),
-    path('delete_message/<int:message_id>/', views.delete_message, name='delete_message'),
-    path('list_of_message/<int:chat_id>/', views.list_of_messages, name='list_of_message'),
+    path('chats_list/<int:user_id>/', ChatList.as_view(), name='chats_list'),
+    path('chats_detail/<int:id>/', ChatEditDeleteUpdate.as_view(), name='chat_detail'),
+    path('create_chat/', ChatListCreate.as_view(), name = 'create_chat'),
+    path('messages_list/<int:chat_id>/', MessageListCreate.as_view(), name='create_message'),
+    path('edit_message/<int:id>/', MessageEditDeleteUpdate.as_view(), name='edit_message'),
+    path('add_member/', ChatMemberCreateList.as_view(), name='add_member'),
+    path('delete_member/<int:chat>/<int:user>/', ChatMemberDelete.as_view(), name='delete_member'),
 ]
