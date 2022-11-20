@@ -6,8 +6,10 @@ class Chat(models.Model):
     description = models.TextField('Описание чата', blank=True, null=True)
     created_at = models.DateField('Время создания', auto_now_add=True)
     photo = models.ImageField('Аватар чата', null=True, blank=True)
+
     def __str__(self):
         return f'{self.title}'
+
     class Meta:
         verbose_name = 'Чат'
         verbose_name_plural = 'Чаты'
@@ -30,8 +32,10 @@ class Message(models.Model):
         verbose_name = 'Чат',
     )
     is_readen = models.BooleanField('Прочиатно', default=False, null=True, blank=True)
+
     def __str__(self):
         return f'{self.content} {self.sender}'
+
     class Meta:
         verbose_name = 'Сообщение'
         verbose_name_plural = 'Сообщения'
@@ -59,6 +63,7 @@ class ChatMember(models.Model):
 
     def get_info_chat(self):
         return {"title" : self.chat.title, "description" : self.chat.description}
+    
     class Meta:
         verbose_name = 'Пользователь чата'
         verbose_name_plural = 'Пользователи чата'
