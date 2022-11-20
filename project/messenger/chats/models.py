@@ -1,5 +1,6 @@
 from django.db import models
 from users.models import User
+
 class Chat(models.Model):
     title = models.CharField('Наименование чата', max_length=200, blank=True, null=True)
     description = models.TextField('Описание чата', blank=True, null=True)
@@ -10,6 +11,7 @@ class Chat(models.Model):
     class Meta:
         verbose_name = 'Чат'
         verbose_name_plural = 'Чаты'
+
 class Message(models.Model):
     content = models.TextField('Текст сообщения')
     sender = models.ForeignKey(
