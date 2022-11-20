@@ -5,9 +5,8 @@ from django.shortcuts import get_object_or_404
 from users.models import User
 
 @require_http_methods(['GET'])
-def profile_user(request):
-    data = json.loads(request.body)
-    user = get_object_or_404(User, id=data.get('id'))
+def profile_user(request, user_id):
+    user = get_object_or_404(User, id=user_id)
     user_info = [
         {
             "id" : user.id,
