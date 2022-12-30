@@ -1,11 +1,13 @@
 from django.db import models
 from users.models import User
+def chat_directory_path(instance, filename):
+    return 'chat_{0}/{1}'.format(instance.id, filename)
 
 class Chat(models.Model):
     title = models.CharField('Наименование чата', max_length=200, blank=True, null=True)
     description = models.TextField('Описание чата', blank=True, null=True)
     created_at = models.DateField('Время создания', auto_now_add=True)
-    photo = models.ImageField('Аватар чата', null=True, blank=True)
+    photo = models.ImageField('Аватар чата', null=True, blank=True, upload_to=chat_directory_path)
 
     def __str__(self):
         return f'{self.title}'
@@ -62,7 +64,19 @@ class ChatMember(models.Model):
         return f'{self.chat} {self.user} {self.role}'
 
     def get_info_chat(self):
-        return {"title" : self.chat.title, "description" : self.chat.description}
+        chat = {"title" : self.chat.title, "description" : self.chat.description, "avatar" : self.chat.photo}
+        last_message = Message.objects.filter(chat=self.chat).last()
+        if last_message is None:
+            chat.update(
+                {"last_message" : "В этом чате пока нет сообшений :(",
+                 "date_of_mes" : ""}
+            )
+        else:
+            chat.update(
+                {"last_message" : last_message.content,
+                 "date_of_mes" : last_message.send_date}
+            )
+        return chat
     
     class Meta:
         verbose_name = 'Пользователь чата'
